@@ -8,7 +8,10 @@ def get_input(param_name):
 
 def set_input():
 
+    input_values = {}
+
     span = get_input('span')
+    input_values.update({str(span):span})
 
     no_of_supports = int(get_input('no of supports'))
     supports = []
@@ -17,6 +20,7 @@ def set_input():
         support = [get_input('support type'),
                    int(get_input('support postion'))]
         supports.append(support)
+    input_values.update({str(supports):supports})
 
     no_of_UDLs = int(get_input('no of UDLs'))
     UDLs = []
@@ -25,6 +29,8 @@ def set_input():
         UDL = [int(get_input('UDL value')),
                int(get_input('UDL start')), int(get_input('UDL end'))]
         UDLs.append(UDL)
+    input_values.update({str(UDLs):UDLs})
+
 
     no_of_point_loads = int(get_input('no of point loads'))
     point_loads = []
@@ -33,3 +39,6 @@ def set_input():
         point_load = [int(get_input('Point Load value')),
                       int(get_input('Point Load position'))]
         point_loads.append(point_load)
+    input_values.update({str(point_loads):point_loads})
+
+    return input_values
