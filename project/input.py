@@ -7,6 +7,7 @@ def get_input(param_name):
 
 
 def set_input():
+    ''' Returns a dict input_values containing all input values '''
 
     input_values = {}
 
