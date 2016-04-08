@@ -43,3 +43,4 @@ def set_input():
     input_values.update({'point_loads':point_loads})
 
     return input_values
+

@@ -15,11 +15,12 @@ def plotter(stress_points, positions, diagram):
 
         :param diagram - The type of diagram(SFD or BMD).
    '''
-
-    plotting.title(diagram + 'diagram')
+    plotting.figure(diagram + ' diagram')
+    plotting.title(diagram + ' diagram')
     plotting.xlabel('Position along length of the member ->')
     plotting.ylabel(diagram + ' ->')
 
     plotting.scatter(positions, stress_points)
     plotting.plot(positions, stress_points)
     plotting.show()
+
