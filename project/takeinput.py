@@ -11,7 +11,7 @@ def set_input():
 
     input_values = {}
 
-    span = get_input('span')
+    span = int(get_input('span'))	
     input_values.update({'span':span})
 
     no_of_supports = int(get_input('no of supports'))
