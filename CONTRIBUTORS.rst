@@ -1,5 +1,5 @@
 Owners:
 
-  1. Sri Sanketh Uppalapati
-  2. Saurabh Agrahari
-
+- Sri Sanketh Uppalapati
+- Saurabh Agrahari
+- Anshu Singh Rajpoot
