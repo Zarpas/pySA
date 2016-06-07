@@ -1,6 +1,6 @@
-from solve import get_sfd,get_bmd
-from takeinput import set_input
-from plot import plotter
+from tools.solve import get_sfd,get_bmd
+from tools.takeinput import set_input
+from tools.plot import plotter
 
 
 def main():
@@ -19,5 +19,3 @@ def main():
 
     plotter(loads, positions, 'Shear force')
     plotter(moments, positions, 'Bending Moment')
-
-main()
