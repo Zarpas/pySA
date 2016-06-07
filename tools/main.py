@@ -1,6 +1,6 @@
-from tools.solve import get_sfd,get_bmd
-from tools.takeinput import set_input
-from tools.plot import plotter
+from solve import get_sfd,get_bmd
+from takeinput import set_input
+from plot import plotter
 
 
 def main():
