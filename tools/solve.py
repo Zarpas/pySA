@@ -45,4 +45,3 @@ def get_bmd(input_values, x):
             bmd += point_load[0]*(point_load[1]-x)
 
     return bmd
-
