@@ -1,0 +1,3 @@
+BENDING MOMENT DIAGRAM
+
+To draw a Bending Moment Diagram, first solve the moment reactions at supports. Then from the left end of the beam, consider the sum of moments acting. Take small intervals along the beam till you reach the right end. Then plot the bending moment corresponding to its position along the beam.
