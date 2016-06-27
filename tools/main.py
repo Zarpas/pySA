@@ -49,4 +49,4 @@ def main():
             plotter(moments, positions, 'Bending Moment')
     except:
         print("Please give a valid input! Try again")
-
+main()
