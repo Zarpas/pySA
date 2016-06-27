@@ -44,8 +44,8 @@ def set_input(args):
         point_loads = []
         for i in range(no_of_point_loads):
             print('FOR POINT LOAD '+str(i+1))
-            point_load = [int(get_input('Point Load value')),
-                          int(get_input('Point Load position'))]
+            point_load = [int(get_input('point load value')),
+                          int(get_input('point load position'))]
             point_loads.append(point_load)
         input_values.update({'point_loads':point_loads})
 
