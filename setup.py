@@ -4,7 +4,7 @@ requirements = open('requirements.txt')
 
 setup(
 
-    name = "py_SA",
+    name = "pySA",
     version = "0.0.1",
     author = "Sri Sanketh Uppalapati",
     author_email = "iamjustice443@gmail.com",

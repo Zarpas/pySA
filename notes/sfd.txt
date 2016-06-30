@@ -1,3 +1,0 @@
-SHEAR FORCE DIAGRAM
-
-To draw a Shear Force Diagram, first solve the shear reactions at supports. Then from the left end of the beam, consider the sum of shear force acting on it. Take small intervals along the beam till you reach the right end. Then plot the shear force corresponding to its position along the beam.

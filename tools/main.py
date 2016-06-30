@@ -1,7 +1,8 @@
 from solve import get_sfd, get_bmd, get_support_reactions
 from takeinput import set_input, validate_input
 from plot import plotter
-from report import printfile
+from report import solve_reactions, solve_sfd, solve_bmd
+from termcolor import colored
 import sys
 
 def main():
@@ -40,13 +41,12 @@ def main():
                 positions.append(position)
                 position+=float(span)/100
 
-            sfd = open('../notes/sfd.txt')
-            bmd = open('../notes/bmd.txt')
-
-            printfile(sfd)
+            solve_reactions(values)
+            solve_sfd(values)
             plotter(loads, positions, 'Shear force')
-            printfile(bmd)
+            solve_bmd(values)
             plotter(moments, positions, 'Bending Moment')
     except:
-        print("Please give a valid input! Try again")
+        print(colored('Please give a valid input! Try again', 'red'))
+
 main()
