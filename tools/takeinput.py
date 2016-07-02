@@ -15,7 +15,7 @@ def set_input(args):
     keys = input_values.keys()
 
     if 'span' not in keys:
-        span = int(get_input('span'))	
+        span = float(get_input('span'))	
         input_values.update({'span':span})
 
     if 'supports' not in keys:
@@ -25,7 +25,7 @@ def set_input(args):
             print('FOR SUPPORT '+str(i+1))
             support = [get_input('support type'),
                        0,
-                       int(get_input('support position'))]
+                       float(get_input('support position'))]
             supports.append(support)
         input_values.update({'supports':supports})
 
@@ -34,8 +34,8 @@ def set_input(args):
         UDLs = []
         for i in range(no_of_UDLs):
             print('FOR UDL ' + str(i+1))
-            UDL = [int(get_input('UDL value')),
-                   int(get_input('UDL start')), int(get_input('UDL end'))]
+            UDL = [float(get_input('UDL value')),
+                   float(get_input('UDL start')), float(get_input('UDL end'))]
             UDLs.append(UDL)
         input_values.update({'UDLs':UDLs})
 
@@ -44,8 +44,8 @@ def set_input(args):
         point_loads = []
         for i in range(no_of_point_loads):
             print('FOR POINT LOAD '+str(i+1))
-            point_load = [int(get_input('point load value')),
-                          int(get_input('point load position'))]
+            point_load = [float(get_input('point load value')),
+                          float(get_input('point load position'))]
             point_loads.append(point_load)
         input_values.update({'point_loads':point_loads})
 
@@ -60,6 +60,8 @@ def get_support_value(supports):
             support_value +=1
         elif(support[0]=='fixed'):
             support_value +=3
+        elif(support[0]=='roller'):
+            support_value +=7
 
     return support_value
 
@@ -67,13 +69,25 @@ def validate_input(input_values):
     ''' Validates input based on support input '''
 
     supports = input_values.get('supports')
+    span = input_values.get('span')
     if(len(supports)>2):
         return False
     for support in supports:
-        if(not support[0]==('pin' or 'fixed')):
+        if(support[0]=='pin'):
+            pass
+        elif(support[0]=='fixed'):
+            pass
+        elif(support[0]=='roller'):
+            pass
+        else:
+            return False
+
+        if(float(support[2])>float(span)):
             return False
     support_value = get_support_value(supports)
-    if(not support_value==(2 or 3)):
+    if(support_value in (2,3,8,14)):
+        pass
+    else:
         return False
     return True
 

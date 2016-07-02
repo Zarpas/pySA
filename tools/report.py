@@ -10,7 +10,7 @@ def solve_sfd(input_values):
     udls = input_values.get('UDLs')
     supports = input_values.get('supports')
     for pload in ploads:
-        if(pload[1]<=position):
+        if(float(pload[1])<=position):
             sfd+=str(pload[0])+' + '
             sfd_value += float(pload[0])
     for udl in udls:
@@ -18,10 +18,11 @@ def solve_sfd(input_values):
             sfd += str(udl[0])+'*'+'('+str(min(position,float(udl[2])))+'-'+str(udl[1])+')'+' + '
             sfd_value += float(udl[0])*(min(position,float(udl[2]))-float(udl[1]))
     for support in supports:
-        if(support[0]=='pin' and support[2]<=position):
+        if((support[0] in ('pin', 'roller')) and float(support[2])<=position):
             sfd += str(-support[1])+' + '
             sfd_value -= support[1]
-        
+    if(sfd==''):
+        sfd = str(0)+' + '
     print('Shear Force = '+sfd[:-3])
     print('Shear Force = '+str(sfd_value)+'\n')
 
@@ -37,7 +38,7 @@ def solve_bmd(input_values):
     udls = input_values.get('UDLs')
     supports = input_values.get('supports')
     for pload in ploads:
-        if (pload[1]>=position):
+        if (float(pload[1])>=position):
             bmd += str(pload[0])+'*'+'('+str(pload[1])+'-'+str(position)+')'+' + '
             bmd_value += float(pload[0])*(float(pload[1])-position)
     for udl in udls:
@@ -49,10 +50,12 @@ def solve_bmd(input_values):
         if(support[0]=='fixed' and support[2]>=position):
             bmd += str(support[1])+' + '
             bmd_value += support[1]
-        if(support[0]=='pin' and support[2]>=position):
+        if((support[0] in ('pin', 'roller')) and float(support[2])>=position):
             bmd += str(support[1])+'*'+'('+str(support[2])+'-'+str(position)+')'+' + '
-            bmd_value = support[1]*(support[2]-position) - bmd_value
+            bmd_value = float(support[1])*(float(support[2])-position) - bmd_value
 
+    if(bmd==''):
+        bmd= str(0)+' + '
     print('Bending Moment = '+bmd[:-3])
     print('Bending Moment = '+str(bmd_value)+'\n')
 
@@ -61,7 +64,30 @@ def solve_reactions(input_values):
     print('SOLVING SUPPORT REACTIONS\n')
     reactions = input_values.get('supports')
     if(len(reactions)==1):
-        print("R1 =")
+        ploads = input_values.get('point_loads')
+        udls = input_values.get('UDLs')
+        line1 = ''
+        value1= 0
+        line2 = ''
+        value2= 0
+        for pload in ploads:
+            line1+= str(pload[0])+'*'+'('+str(pload[1])+'-'+str(reactions[0][2])+')'+' + '
+            value1+= float(pload[0])*(float(pload[1])-float(reactions[0][2]))
+            line2+= str(pload[0])
+            value2+= float(pload[0])
+        for udl in udls:
+            line1+=str(udl[0])+'*'+'('+str(udl[2])+'-'+str(udl[1])+')'+'*'+'('+'('+str(udl[1])+'+'+str(udl[2])+')/2'+'-'+str(reactions[0][2])+')'+' + '
+            value1+=float(udl[0])*(float(udl[2])-float(udl[1]))*((float(udl[1])+float(udl[2]))/2-float(reactions[0][2]))
+            line2+=str(udl[0])+'*'+'('+str(udl[2])+'-'+str(udl[1])+')'+' + '
+            value2+= float(udl[0]*(udl[2]-udl[1]))
+        if(line1 == ''):
+            line1 = str(0)+' + '
+        if(line2 == ''):
+            line2= str(0)+ ' + '
+        print('M1 = '+str(line1[:-3]))
+        print('M1=  '+str(value1)+' -> Equation1\n')
+        print('R1 = '+str(line2[:3]))
+        print('R1 = '+str(value2)+' -> Equation2\n')
     elif(len(reactions)==2):
         ploads = input_values.get('point_loads')
         udls = input_values.get('UDLs')
@@ -71,21 +97,18 @@ def solve_reactions(input_values):
         value2 = 0
         for pload in ploads:
             line1+=str(pload[0]) + ' + '
-            value1+=pload[0]
+            value1+=float(pload[0])
             line2+= str(pload[0])+'*'+'('+str(pload[1])+'-'+str(reactions[0][2])+')'+' + '
-            value2+= pload[0]*(pload[1]-reactions[0][2])
+            value2+= float(pload[0])*(float(pload[1])-float(reactions[0][2]))
         for udl in udls:
             line1+=str(udl[0])+'*'+'('+str(udl[2])+'-'+str(udl[1])+')'+' + '
-            value1+=udl[0]*(udl[2]-udl[1])
+            value1+=float(udl[0])*(float(udl[2])-float(udl[1]))
             line2+=str(udl[0])+'*'+'('+str(udl[2])+'-'+str(udl[1])+')'+'*'+'('+'('+str(udl[1])+'+'+str(udl[2])+')/2'+'-'+str(reactions[0][2])+')'+' + '
-            value2+=udl[0]*(udl[2]-udl[1])*(float((udl[1]+udl[2]))/2-reactions[0][2])
+            value2+=float(udl[0])*(float(udl[2])-float(udl[1]))*((float(udl[1])+float(udl[2]))/2-float(reactions[0][2]))
         print('R1 + R2 = '+line1[:-3])
-        print('R1 + R2 = '+str(value1)+' -> Equation1')
-        print('')
+        print('R1 + R2 = '+str(value1)+' -> Equation1\n')
         print('R2'+'*'+'('+str(reactions[1][2])+'-'+str(reactions[0][2])+')'+' = '+line2[:-3]+' -> Equation2')
-        print('R2'+' = '+str(float(value2)/(reactions[1][2]-reactions[0][2]))+' -> From Equation2')
-        print('')
+        print('R2'+' = '+str(float(value2)/(float(reactions[1][2])-float(reactions[0][2])))+' -> From Equation2\n')
         print('Using Equation1')
         print('R1'+' = '+str(value1)+'-'+'R2')
-        print('Therefore, '+'R1'+' = '+str(value1-(float(value2)/(reactions[1][2]-reactions[0][2]))))
-        print('')
+        print('Therefore, '+'R1'+' = '+str(value1-(float(value2)/(float(reactions[1][2])-float(reactions[0][2]))))+'\n')
